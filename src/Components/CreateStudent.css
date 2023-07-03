@@ -1,0 +1,4 @@
+.student-details-input {
+    display: flex;
+    flex-direction: column;
+}

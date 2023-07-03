@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.table-header {
+    border: 1px solid #000000;
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+}
+
+.table-content {
+    border: 1px solid #000000;
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+}
+
+.crud-buttons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
