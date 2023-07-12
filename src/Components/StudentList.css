@@ -1,0 +1,92 @@
+body {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.student-list-table-header {
+    border: 1px solid #000000;
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    font-size: 25px;
+    align-items: center;
+    margin-left: 40px;
+    height: 40px;
+    font-weight: bold;
+}
+
+.student-list-table-content {
+    border: 1px solid #000000;
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    align-items: center;
+}
+
+.student-list-crud-buttons {
+    margin-top: 10px;
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.create-new-button {
+    display: flex;
+}
+
+.studentlist {
+    display: flex;
+}
+
+.studentlist-rollno {
+    cursor: pointer;
+}
+
+.create-new-student {
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.items-per-page-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.dropdown {
+    margin-left: 5px;
+}
+
+.page-container {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-numbers {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.page-numbers div {
+    padding: 5px;
+}
+
+.page-numbers div.active {
+    background-color: #add8e6;
+    border-radius: 5px;
+}
+
+.student-list-footer-button {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.studentlist.highlight {
+    background-color: cyan;
+}

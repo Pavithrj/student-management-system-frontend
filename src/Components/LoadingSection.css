@@ -1,0 +1,13 @@
+.studentlist-loader-section {
+    position: absolute;
+    z-index: 999;
+}
+
+.studentlist-loading-text {
+    position: relative;
+    z-index: 1000;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

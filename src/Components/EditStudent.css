@@ -1,9 +1,10 @@
-.create-student-details-input {
+.edit-student-input {
     display: flex;
     flex-direction: column;
 }
 
-.create-student-buttons {
+.edit-student-buttons {
     display: flex;
     justify-content: space-around;
+    margin-top: 10px;
 }

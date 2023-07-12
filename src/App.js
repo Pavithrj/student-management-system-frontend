@@ -1,25 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import StudentDetails from './Components/StudentDetails';
 import CreateStudent from './Components/CreateStudent';
-import DeleteStudent from './Components/DeleteStudent';
+import StudentList from './Components/StudentList';
+import StudentDetails from './Components/StudentDetails';
+import EditStudent from './Components/EditStudent';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        {/* <Link to="/read">
-            <button>Read</button>
-          </Link>
-          <Link to="/update">
-            <button>Update</button>
-          </Link>
-        <Link to="/delete">
-            <button>Delete</button>
-          </Link>*/}
+      <div>
         <Routes>
-          <Route path="/" element={<StudentDetails />} />
+          <Route path="/" element={<StudentList />} />
+          <Route path="/student/:rollNo" element={<StudentDetails />} />
           <Route path='/create' element={<CreateStudent />} />
-          <Route path='/delete' element={<DeleteStudent />} />
+          <Route path='/edit/:rollNo' element={<EditStudent />} />
         </Routes>
       </div>
     </Router>

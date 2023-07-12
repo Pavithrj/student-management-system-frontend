@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { createStudents } from "../Service/CreateService";
+import { createStudent } from "../Service/FrontEndService";
 import './CreateStudent.css';
+import DoneIcon from '@mui/icons-material/Done';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function CreateStudent() {
     const [createName, setCreateName] = useState();
@@ -10,19 +12,23 @@ function CreateStudent() {
     const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();
 
-    const handleCreateName = (e) => {
+    const handleCreateNameChange = (e) => {
         setCreateName(e.target.value);
     }
 
-    const handleCreateAge = (e) => {
+    const handleCreateAgeChange = (e) => {
         setCreateAge(e.target.value);
     }
 
-    const handleCreateRollNo = (e) => {
+    const handleCreateRollNoChange = (e) => {
         setCreateRollNo(e.target.value);
     }
 
-    const submitName = async () => {
+    const GoBack = () => {
+        navigate('/');
+    }
+
+    const SubmitCreatedStudent = async () => {
         const newStudent = {
             name: createName,
             age: createAge,
@@ -30,7 +36,7 @@ function CreateStudent() {
         };
 
         try {
-            await createStudents(newStudent);
+            await createStudent(newStudent);
             navigate('/', { state: { isSuccesful: true } });
         } catch (error) {
             setErrorMessage(error.error);
@@ -38,27 +44,29 @@ function CreateStudent() {
         };
     };
 
-
     return (
         <div>
             <p>{errorMessage}</p>
-            <h2>CreateStudent</h2>
-            <div className="student-details-input">
+            <h1>Create Student:</h1>
+            <div className="create-student-details-input">
                 <div>
                     <label>Name: </label>
-                    <input value={createName} onChange={handleCreateName} />
+                    <input value={createName} onChange={handleCreateNameChange} />
                 </div>
                 <div>
                     <label>Age: </label>
-                    <input type="number" value={createAge} onChange={handleCreateAge} />
+                    <input type="number" value={createAge} onChange={handleCreateAgeChange} />
                 </div>
                 <div>
                     <label>RollNo: </label>
-                    <input type="number" value={createRollNo} onChange={handleCreateRollNo} />
+                    <input type="number" value={createRollNo} onChange={handleCreateRollNoChange} />
                 </div>
             </div>
             <br />
-            <button onClick={submitName}>Submit</button>
+            <div className="create-student-buttons">
+                <button onClick={GoBack}><ArrowBackIcon /></button>
+                <button onClick={SubmitCreatedStudent}><DoneIcon /></button>
+            </div>
         </div>
     )
 }
