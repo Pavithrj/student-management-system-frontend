@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentDetails Component should match the snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <h1>
+      Student Details:
+    </h1>
+    <div
+      class="student-details-table-header"
+    >
+      <div>
+        Name
+      </div>
+      <div>
+        Age
+      </div>
+      <div>
+        RollNo
+      </div>
+    </div>
+    <div
+      class="student-details-table-content"
+    >
+      <div />
+      <div />
+      <div />
+    </div>
+    <div>
+      <button>
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ArrowBackIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
