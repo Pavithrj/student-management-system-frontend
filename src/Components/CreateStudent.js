@@ -6,27 +6,19 @@ import DoneIcon from '@mui/icons-material/Done';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function CreateStudent() {
-    const [createName, setCreateName] = useState();
-    const [createAge, setCreateAge] = useState();
-    const [createRollNo, setCreateRollNo] = useState();
-    const [errorMessage, setErrorMessage] = useState();
+    const [createName, setCreateName] = useState("");
+    const [createAge, setCreateAge] = useState("");
+    const [createRollNo, setCreateRollNo] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
-    const handleCreateNameChange = (e) => {
-        setCreateName(e.target.value);
-    }
-
-    const handleCreateAgeChange = (e) => {
-        setCreateAge(e.target.value);
-    }
-
-    const handleCreateRollNoChange = (e) => {
-        setCreateRollNo(e.target.value);
-    }
+    const handleInputChange = (e, stateSetter) => {
+        stateSetter(e.target.value);
+    };
 
     const GoBack = () => {
         navigate('/');
-    }
+    };
 
     const SubmitCreatedStudent = async () => {
         const newStudent = {
@@ -37,35 +29,37 @@ function CreateStudent() {
 
         try {
             await createStudent(newStudent);
-            navigate('/', { state: { isSuccesful: true } });
+            navigate('/', { state: { isSuccessful: true } });
         } catch (error) {
-            setErrorMessage(error.error);
-            console.log("Error in calling the fuction.", error);
-        };
+            setErrorMessage(error.message);
+            console.log("Error in calling the function.", error);
+        }
+    };
+
+    const renderInputField = (label, value, onChange) => {
+        return (
+            <div>
+                <label>
+                    {label}:
+                    <input value={value} onChange={onChange} aria-label={label} />
+                </label>
+            </div>
+        );
     };
 
     return (
         <div>
-            <p>{errorMessage}</p>
+            <p className="error-message">{errorMessage}</p>
             <h1>Create Student:</h1>
             <div className="create-student-details-input">
-                <div>
-                    <label>Name: </label>
-                    <input value={createName} onChange={handleCreateNameChange} />
-                </div>
-                <div>
-                    <label>Age: </label>
-                    <input type="number" value={createAge} onChange={handleCreateAgeChange} />
-                </div>
-                <div>
-                    <label>RollNo: </label>
-                    <input type="number" value={createRollNo} onChange={handleCreateRollNoChange} />
-                </div>
+                {renderInputField("Name", createName, (e) => handleInputChange(e, setCreateName))}
+                {renderInputField("Age", createAge, (e) => handleInputChange(e, setCreateAge))}
+                {renderInputField("RollNo", createRollNo, (e) => handleInputChange(e, setCreateRollNo))}
             </div>
             <br />
             <div className="create-student-buttons">
-                <button onClick={GoBack}><ArrowBackIcon /></button>
-                <button onClick={SubmitCreatedStudent}><DoneIcon /></button>
+                <button data-testid="goBackButton" onClick={GoBack}><ArrowBackIcon /></button>
+                <button data-testid="doneButton" onClick={SubmitCreatedStudent}><DoneIcon /></button>
             </div>
         </div>
     )
