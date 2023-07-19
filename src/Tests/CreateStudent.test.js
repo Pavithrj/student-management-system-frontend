@@ -29,7 +29,7 @@ describe('CreateStudent Component', () => {
 
         render(<CreateStudent />);
 
-        const goBackButton = screen.getByTestId('goBackButton');
+        const goBackButton = screen.getByTestId('create-student-go-back-btn');
         fireEvent.click(goBackButton);
 
         expect(navigate).toHaveBeenCalledWith('/');

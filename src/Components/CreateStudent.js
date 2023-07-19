@@ -58,7 +58,7 @@ function CreateStudent() {
             </div>
             <br />
             <div className="create-student-buttons">
-                <button data-testid="goBackButton" onClick={GoBack}><ArrowBackIcon /></button>
+                <button data-testid="create-student-go-back-btn" onClick={GoBack}><ArrowBackIcon /></button>
                 <button data-testid="doneButton" onClick={SubmitCreatedStudent}><DoneIcon /></button>
             </div>
         </div>

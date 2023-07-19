@@ -45,7 +45,7 @@ exports[`CreateStudent Component should render the component 1`] = `
       class="create-student-buttons"
     >
       <button
-        data-testid="goBackButton"
+        data-testid="create-student-go-back-btn"
       >
         <svg
           aria-hidden="true"

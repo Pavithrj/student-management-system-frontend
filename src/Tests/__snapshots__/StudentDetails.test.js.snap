@@ -1,11 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StudentDetails Component should match the snapshot 1`] = `
+exports[`StudentDetails Component should render and give student details 1`] = `
 <DocumentFragment>
   <div>
-    <h1>
+    <h2
+      data-testid="student-details"
+    >
       Student Details:
-    </h1>
+    </h2>
     <div
       class="student-details-table-header"
     >
@@ -22,12 +24,22 @@ exports[`StudentDetails Component should match the snapshot 1`] = `
     <div
       class="student-details-table-content"
     >
-      <div />
-      <div />
-      <div />
+      <div
+        data-testid="name"
+      />
+      <div
+        data-testid="age"
+      />
+      <div
+        data-testid="rollNo"
+      >
+        123
+      </div>
     </div>
     <div>
-      <button>
+      <button
+        data-testid="student-details-go-back-btn"
+      >
         <svg
           aria-hidden="true"
           class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"

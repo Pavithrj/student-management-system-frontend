@@ -37,26 +37,22 @@ function StudentDetails() {
 
   return (
     <div>
-      <h1>Student Details:</h1>
+      <h1 data-testid="student-details">Student Details:</h1>
       <div className="student-details-table-header">
         <div>Name</div>
         <div>Age</div>
         <div>RollNo</div>
       </div>
       <div className="student-details-table-content">
-        <div>{name}</div>
-        <div>{age}</div>
-        <div>{rollNo}</div>
+        <div data-testid="name">{name}</div>
+        <div data-testid="age">{age}</div>
+        <div data-testid="rollNo">{rollNo}</div>
       </div>
       <div>
-        <button onClick={GoBack}><ArrowBackIcon /></button>
+        <button data-testid="student-details-go-back-btn" onClick={GoBack}><ArrowBackIcon /></button>
       </div>
     </div>
   );
 }
 
 export default StudentDetails;
-
-// use object.keys in map function
-// use constants wherever needed
-// naming conventions
