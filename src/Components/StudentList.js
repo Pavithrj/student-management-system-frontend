@@ -93,7 +93,12 @@ function StudentList() {
             try {
                 const response = await fetch(`${API_BASE_URL}/students`);
                 const jsonData = await response.json();
-                setStudents(jsonData);
+                const maximumAge = Math.max(...jsonData.map((student) => student.age));
+                const updatedStudents = jsonData.map((student) => ({
+                    ...student,
+                    highlight: student.age === maximumAge,
+                }));
+                setStudents(updatedStudents);
                 setIsLoadingData(false);
                 const totalCount = jsonData.length;
                 const newTotalPages = Math.ceil(totalCount / pageSize);
@@ -163,9 +168,9 @@ function StudentList() {
                         <div>RollNo</div>
                     </div>
                     {paginatedStudents.map((student) => {
-                        const { id, name, age, rollNo } = student;
+                        const { id, name, age, rollNo, highlight } = student;
                         return (
-                            <div key={id} className="studentlist">
+                            <div key={id} className={`studentlist ${highlight ? "highlight" : ""}`}>
                                 <button onClick={() => editStudent(student)}>
                                     <EditIcon />
                                 </button>
