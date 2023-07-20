@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import './StudentDetails.css';
 import { useNavigate, useParams } from "react-router";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch, useSelector } from 'react-redux';
+import { setStudentDetails } from "../redux/actions/studentsActions";
+import { API_BASE_URL } from "../constants";
 
 function StudentDetails() {
-  const [student, setStudent] = useState({});
   const { rollNo } = useParams();
   const navigate = useNavigate();
+
+  const { studentDetails } = useSelector((state) => state.students);
+  const dispatch = useDispatch();
 
   const GoBack = () => {
     navigate('/');
@@ -15,25 +20,25 @@ function StudentDetails() {
   useEffect(() => {
     const fetchStudentDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/students/${rollNo}`);
+        const response = await fetch(`${API_BASE_URL}/students${rollNo}`);
         if (!response.ok) {
           throw new Error("Failed to fetch student details");
         }
         const jsonData = await response.json();
-        setStudent(jsonData);
+        dispatch(setStudentDetails(jsonData));
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchStudentDetails();
-  }, [rollNo]);
+  }, [rollNo, dispatch]);
 
-  if (!student) {
+  if (!studentDetails) {
     return <div>Loading...</div>;
   }
 
-  const { name, age } = student;
+  const { name, age } = studentDetails;
 
   return (
     <div>

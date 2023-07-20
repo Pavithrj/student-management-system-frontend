@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
-import './LoadingSection.css'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import './LoadingSection.css';
+import { setIsLoadingData } from "../redux/actions/studentsActions";
 
 function LoadingSection() {
-    const [isLoadingData, setIsLoadingData] = useState(true);
+    const { isLoadingData } = useSelector((state) => state.students);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setTimeout(() => {
-            setIsLoadingData(false);
+            dispatch(setIsLoadingData(false));
         }, 3000);
-    }, []);
+    }, [dispatch]);
 
     return (
         <div>

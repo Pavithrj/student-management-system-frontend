@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import './EditStudent.css';
 import DoneIcon from '@mui/icons-material/Done';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from "react-router";
 import { editStudent } from "../Service/FrontEndService";
 import { API_BASE_URL } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { setUpdateStudent } from "../redux/actions/studentsActions";
 
 function EditStudent() {
-    const [student, setStudent] = useState({});
-    const { name, age } = student;
+    const { updateStudent } = useSelector((state) => state.students);
+    const dispatch = useDispatch();
+    const { name, age } = updateStudent;
     // const [errorMessage, setErrorMessage] = useState();
     // const [isSuccessful, setIsSuccessful] = useState(false);
     const { rollNo } = useParams();
@@ -20,7 +23,7 @@ function EditStudent() {
 
     const SubmitUpdatedStudent = async (e) => {
         e.preventDefault();
-        await editStudent(rollNo, student);
+        await editStudent(rollNo, updateStudent);
     };
 
     useEffect(() => {
@@ -31,21 +34,21 @@ function EditStudent() {
                     throw new Error("Failed to fetch student details");
                 }
                 const jsonData = await response.json();
-                setStudent(jsonData);
+                dispatch(setUpdateStudent(jsonData));
             } catch (error) {
                 console.error(error);
             }
         };
 
         fetchStudentDetails();
-    }, [rollNo]);
+    }, [rollNo, dispatch]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setStudent((data) => ({
+        dispatch(setUpdateStudent((data) => ({
             ...data,
             [name]: value
-        }));
+        })));
     };
 
     return (

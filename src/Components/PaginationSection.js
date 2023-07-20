@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { useDispatch, useSelector } from 'react-redux';
+import { setPageSize, setCurrentPage } from '../redux/actions/studentsActions';
 
-function PaginationSection({ currentPage, totalPages, pageNumbers, goToPage }) {
-    const [pageSize, setPageSize] = useState(5);
-
-    const handlePageSizeChange = (event) => {
-        const selectedPageSize = parseInt(event.target.value);
-        setPageSize(selectedPageSize);
-        goToPage(1);
-    };
+function PaginationSection() {
+    const { pageSize, currentPage, totalPages, pageNumbers } = useSelector((state) => state.students);
+    const dispatch = useDispatch();
 
     const goToPreviousPage = () => {
         goToPage(currentPage - 1);
@@ -17,6 +14,16 @@ function PaginationSection({ currentPage, totalPages, pageNumbers, goToPage }) {
 
     const goToNextPage = () => {
         goToPage(currentPage + 1);
+    };
+
+    const goToPage = (pageNumber) => {
+        dispatch(setCurrentPage(pageNumber));
+    };
+
+    const handlePageSizeChange = (event) => {
+        const selectedPageSize = parseInt(event.target.value);
+        dispatch(setPageSize(selectedPageSize));
+        dispatch(setCurrentPage(1));
     };
 
     return (

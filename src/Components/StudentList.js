@@ -9,23 +9,18 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
-
 import { useDispatch, useSelector } from 'react-redux';
-import { setStudentList } from '../redux/actions/studentsActions';
+import { setStudentList, setPageSize, setCurrentPage, setTotalPages, setPageNumbers, setDeleteSuccess } from '../redux/actions/studentsActions';
+import LoadingSection from "./LoadingSection";
 
 function StudentList() {
     // const [isSuccessful, setIsSuccessful] = useState(true);
     const [isLoadingData, setIsLoadingData] = useState(false);
-    const [pageSize, setPageSize] = useState(5);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [pageNumbers, setPageNumbers] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [deleteSuccess, setDeleteSuccess] = useState(false);
     // const location = useLocation();
     const navigate = useNavigate();
 
-    const students = useSelector((state) => state.students.studentList);
+    const { studentList, pageSize, currentPage, totalPages, pageNumbers, deleteSuccess } = useSelector((state) => state.students);
     const dispatch = useDispatch();
 
     const CreateStudent = () => {
@@ -58,7 +53,7 @@ function StudentList() {
             const formData = new FormData();
             formData.append("file", selectedFile);
             const response = await axios.put(
-                "http://localhost:4000/students/uploadfile",
+                `${API_BASE_URL}students/uploadfile`,
                 formData
             );
             console.log("response:", response.data);
@@ -68,28 +63,25 @@ function StudentList() {
     };
 
     const deletedStudent = async (rollNo) => {
-        const updatedStudents = students.filter((student) => student.rollNo !== rollNo);
+        const updatedStudents = studentList.filter((student) => student.rollNo !== rollNo);
 
-        setTimeout(async () => {
-            try {
-                await deleteStudent(rollNo);
-                console.log("Student deleted successfully");
-                dispatch(setStudentList(Object.freeze(updatedStudents)));
-                setDeleteSuccess(true);
+        try {
+            await deleteStudent(rollNo);
+            dispatch(setStudentList(Object.freeze(updatedStudents)));
+            dispatch(setDeleteSuccess(true));
 
-                setTimeout(() => {
-                    setDeleteSuccess(false);
-                }, 3000);
-            } catch (error) {
-                console.error("Failed to delete student:", error);
-            }
-        }, 2000);
+            setTimeout(() => {
+                dispatch(setDeleteSuccess(false));
+            }, 3000);
+        } catch (error) {
+            console.error("Failed to delete student:", error);
+        }
     };
 
     const handlePageSizeChange = (event) => {
         const selectedPageSize = parseInt(event.target.value);
-        setPageSize(selectedPageSize);
-        setCurrentPage(1);
+        dispatch(setPageSize(selectedPageSize));
+        dispatch(setCurrentPage(1));
     };
 
     useEffect(() => {
@@ -98,7 +90,6 @@ function StudentList() {
             try {
                 const response = await fetch(`${API_BASE_URL}/students`);
                 const jsonData = await response.json();
-                dispatch(setStudentList(jsonData));
 
                 const maximumAge = Math.max(...jsonData.map((student) => student.age));
                 const updatedStudents = jsonData.map((student) => ({
@@ -113,8 +104,8 @@ function StudentList() {
                 for (let i = 1; i <= newTotalPages; i++) {
                     newPageNumbers.push(i);
                 }
-                setTotalPages(newTotalPages);
-                setPageNumbers(newPageNumbers);
+                dispatch(setTotalPages(newTotalPages));
+                dispatch(setPageNumbers(newPageNumbers));
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setIsLoadingData(false);
@@ -134,15 +125,15 @@ function StudentList() {
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const paginatedStudents = students.slice(startIndex, endIndex);
+    const paginatedStudents = useSelector((state) => {
+        const { studentList } = state.students;
+        return studentList.slice(startIndex, endIndex);
+    });
 
     return (
         <div>
-            {isLoadingData ? (
-                <div className="student-list-loader-section">
-                    <span className="student-list-loading-text">Loading...</span>
-                </div>
-            ) : (
+            {isLoadingData && <LoadingSection />}
+            {!isLoadingData && (
                 <div>
                     {/* {isSuccessful ? "Successfully Created New Student" : "Try Again"} */}
                     {deleteSuccess && <p>Student deleted successfully!</p>}
@@ -200,20 +191,20 @@ function StudentList() {
                         );
                     })}
                     <div className="page-container">
-                        <button onClick={() => setCurrentPage((prevPage) => prevPage - 1)} hidden={currentPage === 1}>
+                        <button onClick={() => dispatch(setCurrentPage(currentPage - 1))} hidden={currentPage === 1}>
                             <NavigateBeforeIcon />
                         </button>
                         {pageNumbers.map((page) => (
                             <div key={page} className="page-numbers">
                                 <div
-                                    onClick={() => setCurrentPage(page)}
+                                    onClick={() => dispatch(setCurrentPage(page))}
                                     className={currentPage === page ? "active" : ""}
                                 >
                                     {page}
                                 </div>
                             </div>
                         ))}
-                        <button onClick={() => setCurrentPage((prevPage) => prevPage + 1)} hidden={currentPage === totalPages}>
+                        <button onClick={() => dispatch(setCurrentPage(currentPage + 1))} hidden={currentPage === totalPages}>
                             <NavigateNextIcon />
                         </button>
                     </div>
