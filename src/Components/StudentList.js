@@ -10,8 +10,10 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setStudentList } from '../redux/actions/studentsActions';
+
 function StudentList() {
-    const [students, setStudents] = useState([]);
     // const [isSuccessful, setIsSuccessful] = useState(true);
     const [isLoadingData, setIsLoadingData] = useState(false);
     const [pageSize, setPageSize] = useState(5);
@@ -22,6 +24,9 @@ function StudentList() {
     const [deleteSuccess, setDeleteSuccess] = useState(false);
     // const location = useLocation();
     const navigate = useNavigate();
+
+    const students = useSelector((state) => state.students.studentList);
+    const dispatch = useDispatch();
 
     const CreateStudent = () => {
         navigate("/create");
@@ -69,7 +74,7 @@ function StudentList() {
             try {
                 await deleteStudent(rollNo);
                 console.log("Student deleted successfully");
-                setStudents(Object.freeze(updatedStudents));
+                dispatch(setStudentList(Object.freeze(updatedStudents)));
                 setDeleteSuccess(true);
 
                 setTimeout(() => {
@@ -93,12 +98,14 @@ function StudentList() {
             try {
                 const response = await fetch(`${API_BASE_URL}/students`);
                 const jsonData = await response.json();
+                dispatch(setStudentList(jsonData));
+
                 const maximumAge = Math.max(...jsonData.map((student) => student.age));
                 const updatedStudents = jsonData.map((student) => ({
                     ...student,
                     highlight: student.age === maximumAge,
                 }));
-                setStudents(updatedStudents);
+                dispatch(setStudentList(updatedStudents));
                 setIsLoadingData(false);
                 const totalCount = jsonData.length;
                 const newTotalPages = Math.ceil(totalCount / pageSize);
@@ -115,7 +122,7 @@ function StudentList() {
         };
 
         fetchData();
-    }, [pageSize]);
+    }, [pageSize, dispatch]);
 
     // useEffect(() => {
     //     if (location.state?.isSuccessful) {
